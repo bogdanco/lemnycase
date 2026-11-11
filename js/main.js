@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Keep legal pages on light header styling
+  if (document.body.classList.contains("legal-page")) {
+    document.querySelector(".site-header")?.classList.add("is-scrolled");
+  }
+
   I18N.apply();
 
   document.querySelectorAll("[data-lang-btn]").forEach((btn) => {

@@ -1,0 +1,23 @@
+{
+  "name": "LEMNYCASE",
+  "short_name": "LEMNYCASE",
+  "description": "Case gata la cheie pe structură din lemn prefabricată în România.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ebe0d0",
+  "theme_color": "#1f4d47",
+  "lang": "ro",
+  "icons": [
+    {
+      "src": "/assets/brand/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/brand/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

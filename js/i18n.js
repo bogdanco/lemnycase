@@ -256,11 +256,44 @@ const I18N = {
       btn.classList.toggle("is-active", btn.getAttribute("data-lang-btn") === this.lang);
       btn.setAttribute("aria-pressed", String(btn.getAttribute("data-lang-btn") === this.lang));
     });
-    const titleMap = {
-      ro: "LEMNYCASE — Case gata la cheie",
-      de: "LEMNYCASE — Schlüsselfertige Häuser",
-      en: "LEMNYCASE — Turnkey homes",
+    const titleKey = document.body?.dataset?.titleKey;
+    let title;
+    let description;
+    if (titleKey) {
+      title = this.t(titleKey);
+    } else {
+      const titleMap = {
+        ro: "LEMNYCASE — Case gata la cheie din lemn prefabricat | România",
+        de: "LEMNYCASE — Schlüsselfertige Holzhäuser | Rumänien",
+        en: "LEMNYCASE — Turnkey prefabricated timber homes | Romania",
+      };
+      title = titleMap[this.lang] || titleMap.ro;
+    }
+    document.title = title;
+
+    const descKey = document.body?.dataset?.descKey;
+    if (descKey) {
+      description = this.t(descKey);
+    } else {
+      const descMap = {
+        ro: "LEMNYCASE construiește case gata la cheie pe structură din lemn prefabricată în România. De la consultanță și proiect până la montaj și predare.",
+        de: "LEMNYCASE baut schlüsselfertige Häuser mit vorgefertigter Holzstruktur in Rumänien — von Beratung und Planung bis Montage und Übergabe.",
+        en: "LEMNYCASE builds turnkey homes with prefabricated timber structure in Romania — from consultation and design to assembly and handover.",
+      };
+      description = descMap[this.lang] || descMap.ro;
+    }
+
+    const setMeta = (selector, attr, value) => {
+      const el = document.querySelector(selector);
+      if (el) el.setAttribute(attr, value);
     };
-    document.title = titleMap[this.lang] || titleMap.ro;
+    setMeta('meta[name="description"]', "content", description);
+    setMeta('meta[property="og:title"]', "content", title);
+    setMeta('meta[property="og:description"]', "content", description);
+    setMeta('meta[name="twitter:title"]', "content", title);
+    setMeta('meta[name="twitter:description"]', "content", description);
+
+    const localeMap = { ro: "ro_RO", de: "de_DE", en: "en_US" };
+    setMeta('meta[property="og:locale"]', "content", localeMap[this.lang] || localeMap.ro);
   },
 };
