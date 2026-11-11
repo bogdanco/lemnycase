@@ -63,12 +63,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!showcase || !PROJECTS.length) return;
     const project = PROJECTS[projectIndex];
     const main = showcase.querySelector("[data-project-main]");
-    const thumb = showcase.querySelector("[data-project-thumb]");
     const name = showcase.querySelector("[data-project-name]");
     const place = showcase.querySelector("[data-project-place]");
     const count = showcase.querySelector("[data-project-count]");
-    if (main) main.src = project.image;
-    if (thumb) thumb.src = project.image;
+    if (main) {
+      main.src = project.image;
+      main.alt = I18N.t(project.nameKey);
+    }
     if (name) name.textContent = I18N.t(project.nameKey);
     if (place) place.textContent = I18N.t(project.placeKey);
     if (count) count.textContent = `${projectIndex + 1} / ${PROJECTS.length}`;
@@ -83,6 +84,30 @@ document.addEventListener("DOMContentLoaded", () => {
     projectIndex = (projectIndex + 1) % PROJECTS.length;
     renderProject();
   });
+
+  // Swipe on the main image (mobile + desktop)
+  let touchStartX = 0;
+  const mainImg = showcase?.querySelector("[data-project-main]");
+  mainImg?.addEventListener(
+    "touchstart",
+    (event) => {
+      touchStartX = event.changedTouches[0]?.clientX ?? 0;
+    },
+    { passive: true }
+  );
+  mainImg?.addEventListener(
+    "touchend",
+    (event) => {
+      const dx = (event.changedTouches[0]?.clientX ?? 0) - touchStartX;
+      if (Math.abs(dx) < 40) return;
+      projectIndex =
+        dx < 0
+          ? (projectIndex + 1) % PROJECTS.length
+          : (projectIndex - 1 + PROJECTS.length) % PROJECTS.length;
+      renderProject();
+    },
+    { passive: true }
+  );
 
   document.addEventListener("lemny:langchange", renderProject);
   renderProject();
